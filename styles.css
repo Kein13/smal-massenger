@@ -1,0 +1,204 @@
+:root {
+    --bg-color: #0f0f13;       /* Глубокий черный фон страницы */
+    --card-bg: #1a1a24;        /* Цвет карточек (контейнеров) */
+    --text-main: #e0e0e0;     /* Основной светлый текст */
+    --text-muted: #888;        /* Приглушенный текст */
+    --accent-blue: #00f2ff;   /* Неоновый голубой */
+    --accent-hover: #00c9cc;   /* Чуть более спокойный голубой при наведении */
+    --input-bg: #2a2a35;       /* Фон полей ввода */
+    --border-color: #333;      /* Цвет границ */
+}
+
+body {
+    font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+    margin: 0;
+    padding: 20px;
+    background-color: var(--bg-color);
+    color: var(--text-main);
+    line-height: 1.5;
+}
+
+/* Карточки (контейнеры для форм и чата) */
+#home-container, #room-container {
+    max-width: 600px;
+    margin: 0 auto;
+    background-color: var(--card-bg);
+    padding: 30px;
+    border-radius: 12px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
+    border: 1px solid var(--border-color);
+}
+
+h1, h2 {
+    color: var(--accent-blue);
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    text-shadow: 0 0 10px rgba(0, 242, 255, 0.3);
+    margin-bottom: 20px;
+}
+
+label {
+    display: block;
+    font-weight: 600;
+    color: var(--text-main);
+    margin-bottom: 8px;
+    text-transform: uppercase;
+    font-size: 0.85rem;
+}
+
+input[type="text"] {
+    width: 100%;
+    padding: 12px 15px;
+    box-sizing: border-box; /* Важно для отступов */
+    border: 1px solid var(--border-color);
+    border-radius: 6px;
+    background-color: var(--input-bg);
+    color: var(--text-main);
+    transition: all 0.3s ease;
+    outline: none;
+}
+
+input[type="text"]:focus {
+    border-color: var(--accent-blue);
+    box-shadow: 0 0 8px rgba(0, 242, 255, 0.4);
+}
+
+button {
+    padding: 12px 24px;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-weight: bold;
+    text-transform: uppercase;
+    transition: transform 0.2s, box-shadow 0.2s;
+    font-size: 0.9rem;
+}
+
+/* Кнопка создания комнаты (Зеленая) */
+.btn-create {
+    background-color: #2ecc71; /* Яркий зеленый для контраста */
+    color: #000;
+}
+.btn-create:hover {
+    background-color: #27ae60;
+    transform: translateY(-2px);
+}
+
+/* Кнопка входа (Неоновая) */
+.btn-join {
+    background-color: transparent;
+    color: var(--accent-blue);
+    border: 2px solid var(--accent-blue);
+}
+.btn-join:hover {
+    background-color: rgba(0, 242, 255, 0.1);
+    box-shadow: 0 0 15px var(--accent-blue);
+    transform: translateY(-2px);
+}
+
+hr {
+    border: 0;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, var(--accent-blue), transparent);
+    margin: 25px 0;
+}
+
+/* Элементы чата */
+#msgs-container {
+    height: 400px; /* Чуть выше для удобства */
+    overflow-y: auto;
+    border: 1px solid #333;
+    border-radius: 8px;
+    padding: 15px;
+    margin-bottom: 20px;
+    background: #111;
+    position: relative;
+}
+
+#msgs-container::after {
+    content: '';
+    position: absolute;
+    bottom: 0; left: 0; right: 0;
+    height: 20px;
+    background: linear-gradient(to top, #111, transparent);
+    pointer-events: none; /* Чтобы скролл работал сквозь градиент */
+}
+
+#msgs-container ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+#msgs-container li {
+    margin-bottom: 12px;
+    padding-bottom: 5px;
+    border-bottom: 1px solid #222;
+    animation: fadeIn 0.3s ease;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(5px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+strong {
+    color: var(--accent-blue);
+}
+
+.time {
+    color: #666;
+    font-size: 0.75rem;
+    float: right;
+    margin-left: 10px;
+    opacity: 0.8;
+}
+
+#message-box {
+    display: flex;
+    gap: 10px;
+}
+
+#message-input {
+    flex-grow: 1;
+}
+
+#send-btn {
+    background-color: var(--accent-blue);
+    color: #000;
+    padding: 12px 20px;
+}
+#send-btn:hover {
+    background-color: var(--accent-hover);
+    box-shadow: 0 0 15px rgba(0, 242, 255, 0.6);
+}
+
+a {
+    color: var(--accent-blue);
+    text-decoration: none;
+    transition: color 0.3s;
+}
+a:hover {
+    color: white;
+    text-decoration: underline;
+}
+
+footer {
+    margin-top: 50px;
+    padding: 20px;
+    text-align: center;
+    border-top: 1px solid #333;
+    color: var(--text-muted);
+    font-size: 0.9em;
+}
+
+/* Стили для ошибки */
+.error-box {
+    background: rgba(255, 50, 50, 0.15);
+    color: #ff6b6b;
+    padding: 12px;
+    border-radius: 4px;
+    border: 1px solid #ff6b6b;
+    text-align: center;
+    margin-bottom: 20px;
+}

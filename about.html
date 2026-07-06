@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div style="max-width: 600px; margin: 40px auto; line-height: 1.6; color: #333;">
+    <h1>О проекте Chat of oneclick_</h1>
+    
+    <p>Это простой чат, созданный на стеке:</p>
+    <ul>
+        <li><strong>Backend:</strong> Python + Flask</li>
+        <li><strong>База данных:</strong> SQLite</li>
+        <li><strong>Frontend:</strong> HTML, CSS, JS</li>
+    </ul>
+
+    <p>Функционал:</p>
+    <ul>
+        <li>Создание комнат с уникальным кодом.</li>
+        <li>Хранение истории сообщений в БД.</li>
+        <li>Ограничение истории последними 100 сообщениями.</li>
+    </ul>
+
+    <p style="margin-top: 30px; font-style: italic; color: #777;">
+        Разработано для демонстрации работы с сессиями и базами данных в Flask.
+    </p>
+</div>
+{% endblock %}

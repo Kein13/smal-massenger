@@ -1,0 +1,46 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div id="home-container">
+    <h1 id="home-header">Chat of oneclick_</h1>
+    
+    <!-- Блок вывода ошибок с новым классом -->
+    {% if error %}
+        <div class="error-box">
+            {{ error }}
+        </div>
+    {% endif %}
+
+    <form method="POST" action="/V" style="display: flex; flex-direction: column; gap: 20px;">
+        
+        <!-- Поле имени -->
+        <label for="name">Ваше имя:</label>
+        <input type="text" id="name" name="name" placeholder="введите имя" value="{{ request.form.name if request.form.name else '' }}" required>
+
+        <!-- Блок для кода комнаты -->
+        <div style="display: flex; flex-direction: column; gap: 10px;">
+            <label for="code">Код комнаты:</label>
+            <div style="display: flex; gap: 10px; align-items: center;">
+                <input type="text" id="code" name="code" placeholder="Введите код (для входа)" value="{{ request.form.code if request.form.code else '' }}">
+                <span style="color: #666; font-size: 0.85em;">или оставьте пустым</span>
+            </div>
+        </div>
+
+        <hr>
+
+        <!-- Кнопки действий -->
+        <div style="display: flex; justify-content: space-between; gap: 15px; flex-wrap: wrap;">
+            <!-- Кнопка создания комнаты - используем класс btn-create -->
+            <button type="submit" name="create" value="1" class="btn-create">
+                Создать комнату
+            </button>
+
+            <!-- Кнопка входа в комнату - используем класс btn-join -->
+            <button type="submit" name="join" value="1" class="btn-join">
+                Войти в комнату
+            </button>
+        </div>
+    </form>
+</div>
+{% endblock %}
+

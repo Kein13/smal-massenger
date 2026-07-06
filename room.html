@@ -1,0 +1,98 @@
+{% extends 'base.html' %}
+{% block content %}
+<div id="room-container">
+    <h1 id="home-header">Chat of oneclick_</h1>
+    <div id="room-subsection" style="margin-bottom: 20px; display: flex; justify-content: space-between; align-items: center;">
+        <h2 id="room-code-display">Room Code: <span style="color: white;">{{ room }}</span></h2>
+        <a href="/V" id="leave-chat-btn">← Выйти в меню</a>
+    </div>
+
+    <div id="chat-room-widget">
+        <div id="msgs-container">
+            <ul id="messages"></ul>
+        </div>
+        <div id="message-box">
+            <input type="text" placeholder="Сообщение..." id="message-input" />
+            <button id="send-btn">Отправить</button>
+        </div>
+    </div>
+</div>
+
+<script>
+    const room = "{{ room }}";
+    const name = "{{ user }}";
+    let lastMessageId = -1;
+
+    function renderMessage(msg) {
+        const ul = document.getElementById('messages');
+        const li = document.createElement('li');
+
+        const senderSpan = document.createElement('strong');
+        senderSpan.textContent = msg.sender;
+
+        const timeSpan = document.createElement('span');
+        timeSpan.className = 'time';
+        timeSpan.textContent = msg.timestamp || '';
+
+        const messageText = document.createTextNode(': ' + msg.message);
+
+        li.appendChild(senderSpan);
+        li.appendChild(messageText);
+        li.appendChild(timeSpan);
+
+        ul.appendChild(li);
+        // Автопрокрутка вниз
+        ul.scrollTop = ul.scrollHeight;
+        lastMessageId = Math.max(lastMessageId, msg.id);
+    }
+
+    function pollMessages() {
+        fetch(`/messages/${room}?last_id=${lastMessageId}`)
+            .then(response => response.json())
+            .then(data => {
+                if (Array.isArray(data)) {
+                    data.forEach(renderMessage);
+                }
+            })
+            .catch(err => console.error("Ошибка получения сообщений:", err));
+        
+        setTimeout(pollMessages, 2000);
+    }
+
+    document.getElementById('send-btn').onclick = function() {
+        sendMessage();
+    };
+
+    const input = document.getElementById('message-input');
+    input.addEventListener('keydown', function(e) {
+        if (e.key === 'Enter' && !e.shiftKey) {
+            e.preventDefault();
+            sendMessage();
+        }
+    });
+
+    function sendMessage() {
+        const msg = input.value.trim();
+        if (!msg) return;
+
+        fetch('/send', {
+            method: 'POST',
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify({ room: room, name: name, message: msg })
+        })
+        .then(res => res.json())
+        .then(newMsg => renderMessage(newMsg))
+        .catch(err => console.error(err));
+        
+        input.value = '';
+        input.focus();
+    }
+
+    // Загрузка начальных сообщений
+    fetch(`/messages/${room}`)
+        .then(r => r.json())
+        .then(msgs => msgs.forEach(renderMessage))
+        .then(() => pollMessages());
+</script>
+{% endblock %}
+
